@@ -1,79 +1,64 @@
 package com.example.myapplication
 
 import java.util.*
-
 typealias str = String
-typealias Predicate<T> = (T) -> Boolean
+typealias Predicate<T> = (T)->Boolean
+
+typealias Production<T> = (T)->Boolean
+
+//lambda表达式如果可以根据上下文推断出变量类型则可以省略形参类型，如果Lambda表达式只有一个形参，那么形参的形参名也可以省略，继而->也可以省略
+//匿名函数如果也可以根据上下文推断出类型变量则也可以省略形参类型
 
 fun main() {
 
-    println("函数最大值：" + max(1, 2))
-    println("函数最大值：" + max(1, num2 = 7))
-    println("函数最大值：" + max(num1 = 3, num2 = 2))
-    defaultParams()
-    defaultParams("李四")
-    defaultParams("李四", 100)
-}
+    set()
 
-private fun map() {
-    var mapValue = mapOf("1" to "一", "2" to "二", "3" to "三")//map的遍历方式
-    for (key in mapValue.keys) {
-        println("map的key: $key")
-    }
-    for (value in mapValue.values) {
-        println("map的 value: $value")
-    }
+    var listV = listOf("java","kotlin","Go")
+    listV.dropWhile { it.length>3 }
 
-    for ((key, value) in mapValue) {
-        println("key: $key == value: $value")
-    }
-}
+    var filterList = listOf(3,5,20,100,34).filter (fun(el):Boolean {return Math.abs(el)>20}) //匿名函数
+    var rt = listOf<Int>(3,5,20,100,34).filter(fun(el) = Math.abs(el)>20)//使用单表达式的匿名函数，可以省略返回值类型
 
-private fun defaultParams(key: String = "哈哈", value: Int = 3) {
-    println("key: $key == value: $value")
+    listV.forEach(fun(n){
+        println("匿名函数： $n")//匿名函数的return则返回自身不起作用
+        return
+    })
+    listV.forEach { println("lambda值：$it")
+        return }//内联函数（非内联函数的lambda表达式中不能有return）、lambda添加return则lambda结束其所在函数结束执行
+
+
+
 }
 
 
-tailrec fun factRec(n: Int, total: Int = 1): Int = if (n == 1) total else factRec(
-    n - 1,
-    total * n
-)//单表达函数与尾函数的结合，尾函数需要tailrec关键字，尾函数与递归区别，是编译器会对尾函数进行修改，将其优化成一个高效的基于循环的版本，可以减少内存的消耗
-
-private fun singleFun(num1: Int, num2: Int): Double = if (num1 > num2) num1.toDouble() else num2.toDouble()//单表达式函数
-
-
-
-
-
-
-    public fun moreParams(a :Int ,vararg value: Int){//vararg修饰的形参类似与java的...可以传入不定的参数
-
+inline fun f( crossinline body:()->Unit){
+    val f = object :Runnable{
+        override fun run() = body()
     }
-
-public fun max(num1: Int, num2: Int): Int {
-    return if (num1 > num2) num1 else num2
 }
 
-private fun setAndList() {
-    //    testDemo()
 
-    /*
-    *
-    *  可变集合与不可变集合的区别
-理解 Kotlin 集合，关键在于理解 可变与不可变，指的是集合内部的元素和元素的组织方式，而不在于集合类型变量是 val 还是 var。可变集合，变的是元素的值、集合内元素的排列、数量等等。
+inline  fun map(data:Array<Int>,fn : (Int)->Int) : Array<Int>{//内联函数，即编译器将内联函数里面调用的函数代码(仅限代码少的函数多点则弊大于利)复制到内联函数的执行代码中，而不是普通的将调用的函数创建函数对象（再压栈、出栈）
 
-Kotlin 集合框架里，所有的可变集合都继承自相同的不可变集合，也就是说 MutableCollection 是 Collection 的子接口、MutableAbstractCollection 是 AbstractColleciton 的子类……
-
-一般来说，不可变集合只能对元素进行读取和查询，可变集合才能对元素进行增减和赋值。
-
-相对于 Java 集合，Kotlin 的不可变集合只拥有一部分功能，可变集合才拥有完整的功能。
-    *
-    * */
-
-//    varDemo()
+    var result = Array<Int>(data.size,{0})
+    for(i in data.indices){
+        result[i] = fn(data[i])
+    }
+    return result
+}
 
 
-//    array()
+
+inline  fun map1(data:Array<Int>,fn : (Int)->Int, noinline fn1 : (Int)->Int) : Array<Int>{//参数三fn1不会内联，通过noinline 关键字取消不想内联的函数
+
+    var result = Array<Int>(data.size,{0})
+    for(i in data.indices){
+        result[i] = fn(data[i])
+    }
+    return result
+}
+
+private fun set() {
     var arr3: String? = null
 //    arr3?.lastIndex//此写法不会有空指针异常
 //    arr3!!.length //此写法如果arr3为空指针则报异常
@@ -144,6 +129,7 @@ private fun varDemo() {
     println(txts)
     println(st.javaClass)
     val p: Predicate<String> = { it.length > 4 }
+    val pro :Production<String> = {it.length>100}
 
     println(arrayOf("java", "object-c", "go", "kotlin").filter(p))
     var so = 20
@@ -176,7 +162,7 @@ private fun testDemo() {
     println(insertValue)
     var nuv = null
     var str: String? = "133"//意思是str变量可以赋值为null
-    var str1: String? = null
+    var str1 : String? = null
     //str1.length str1为空则无法调用其属性，编译不通过，想调用则用str1?.length 如果str1为空则直接返回null
     str?.length
     if (str != null) {
@@ -212,23 +198,24 @@ private fun testDemo() {
 //    """.trimIndent("^")
 }
 
-class Test {
+class Test{
 
-    fun testVar() {
+    fun testVar(){
 
-        var num: Int
+        var num : Int
         num = 24
         var zi: String = "字符串"
-        val final: Short = 23
+        val final : Short = 23
         var charf = 'w'
-        var fin: String;
+        var fin : String;
         fin = "李四"
-        var numInt: Long = 2999999999
+        var numInt :Long = 2999999999
         print(Short.MAX_VALUE)
 
-        var page: Int? = null
+        var page : Int? = null
 
         var sixty = 0xaf
+
 
 
     }
