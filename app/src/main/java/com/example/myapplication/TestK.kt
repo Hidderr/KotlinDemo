@@ -1,26 +1,89 @@
 package com.example.myapplication
 
 import java.util.*
+
 typealias str = String
-typealias Predicate<T> = (T)->Boolean
+typealias Predicate<T> = (T) -> Boolean
 
 fun main() {
-//    testDemo()
+
+    println("函数最大值：" + max(1, 2))
+    println("函数最大值：" + max(1, num2 = 7))
+    println("函数最大值：" + max(num1 = 3, num2 = 2))
+    defaultParams()
+    defaultParams("李四")
+    defaultParams("李四", 100)
+}
+
+private fun map() {
+    var mapValue = mapOf("1" to "一", "2" to "二", "3" to "三")//map的遍历方式
+    for (key in mapValue.keys) {
+        println("map的key: $key")
+    }
+    for (value in mapValue.values) {
+        println("map的 value: $value")
+    }
+
+    for ((key, value) in mapValue) {
+        println("key: $key == value: $value")
+    }
+}
+
+private fun defaultParams(key: String = "哈哈", value: Int = 3) {
+    println("key: $key == value: $value")
+}
+
+
+tailrec fun factRec(n: Int, total: Int = 1): Int = if (n == 1) total else factRec(
+    n - 1,
+    total * n
+)//单表达函数与尾函数的结合，尾函数需要tailrec关键字，尾函数与递归区别，是编译器会对尾函数进行修改，将其优化成一个高效的基于循环的版本，可以减少内存的消耗
+
+private fun singleFun(num1: Int, num2: Int): Double = if (num1 > num2) num1.toDouble() else num2.toDouble()//单表达式函数
+
+
+
+
+
+
+    public fun moreParams(a :Int ,vararg value: Int){//vararg修饰的形参类似与java的...可以传入不定的参数
+
+    }
+
+public fun max(num1: Int, num2: Int): Int {
+    return if (num1 > num2) num1 else num2
+}
+
+private fun setAndList() {
+    //    testDemo()
+
+    /*
+    *
+    *  可变集合与不可变集合的区别
+理解 Kotlin 集合，关键在于理解 可变与不可变，指的是集合内部的元素和元素的组织方式，而不在于集合类型变量是 val 还是 var。可变集合，变的是元素的值、集合内元素的排列、数量等等。
+
+Kotlin 集合框架里，所有的可变集合都继承自相同的不可变集合，也就是说 MutableCollection 是 Collection 的子接口、MutableAbstractCollection 是 AbstractColleciton 的子类……
+
+一般来说，不可变集合只能对元素进行读取和查询，可变集合才能对元素进行增减和赋值。
+
+相对于 Java 集合，Kotlin 的不可变集合只拥有一部分功能，可变集合才拥有完整的功能。
+    *
+    * */
 
 //    varDemo()
 
 
 //    array()
-    var arr3 : String? = null
+    var arr3: String? = null
 //    arr3?.lastIndex//此写法不会有空指针异常
 //    arr3!!.length //此写法如果arr3为空指针则报异常
 
 
-    var set = setOf("java","kotlin","Go")//不可变集合
-    var hashSet = hashSetOf("java","kotlin","Go")//不可变集合
-    var mutableSet = mutableSetOf("java","kotlin","Go")//创建可变的集合
-    var linkedHashSet = linkedSetOf("java","kotlin","Go")//创建顺序的集合
-    var treeSet = sortedSetOf("java","kotlin","Go")//创建从小到大顺序的集合
+    var set = setOf("java", "kotlin", "Go")//不可变集合
+    var hashSet = hashSetOf("java", "kotlin", "Go")//不可变集合
+    var mutableSet = mutableSetOf("java", "kotlin", "Go")//创建可变的集合
+    var linkedHashSet = linkedSetOf("java", "kotlin", "Go")//创建顺序的集合
+    var treeSet = sortedSetOf("java", "kotlin", "Go")//创建从小到大顺序的集合
     println(mutableSet)//集合元素按添加的顺序
     println(set)
     println(hashSet)
@@ -113,7 +176,7 @@ private fun testDemo() {
     println(insertValue)
     var nuv = null
     var str: String? = "133"//意思是str变量可以赋值为null
-    var str1 : String? = null
+    var str1: String? = null
     //str1.length str1为空则无法调用其属性，编译不通过，想调用则用str1?.length 如果str1为空则直接返回null
     str?.length
     if (str != null) {
@@ -149,24 +212,23 @@ private fun testDemo() {
 //    """.trimIndent("^")
 }
 
-class Test{
+class Test {
 
-    fun testVar(){
+    fun testVar() {
 
-        var num : Int
+        var num: Int
         num = 24
         var zi: String = "字符串"
-        val final : Short = 23
+        val final: Short = 23
         var charf = 'w'
-        var fin : String;
+        var fin: String;
         fin = "李四"
-        var numInt :Long = 2999999999
+        var numInt: Long = 2999999999
         print(Short.MAX_VALUE)
 
-        var page : Int? = null
+        var page: Int? = null
 
         var sixty = 0xaf
-
 
 
     }
