@@ -4,23 +4,71 @@ import java.util.*
 typealias str = String
 typealias Predicate<T> = (T)->Boolean
 
+typealias Production<T> = (T)->Boolean
+
+//lambda表达式如果可以根据上下文推断出变量类型则可以省略形参类型，如果Lambda表达式只有一个形参，那么形参的形参名也可以省略，继而->也可以省略
+//匿名函数如果也可以根据上下文推断出类型变量则也可以省略形参类型
+
 fun main() {
-//    testDemo()
 
-//    varDemo()
+    set()
+
+    var listV = listOf("java","kotlin","Go")
+    listV.dropWhile { it.length>3 }
+
+    var filterList = listOf(3,5,20,100,34).filter (fun(el):Boolean {return Math.abs(el)>20}) //匿名函数
+    var rt = listOf<Int>(3,5,20,100,34).filter(fun(el) = Math.abs(el)>20)//使用单表达式的匿名函数，可以省略返回值类型
+
+    listV.forEach(fun(n){
+        println("匿名函数： $n")//匿名函数的return则返回自身不起作用
+        return
+    })
+    listV.forEach { println("lambda值：$it")
+        return }//内联函数（非内联函数的lambda表达式中不能有return）、lambda添加return则lambda结束其所在函数结束执行
 
 
-//    array()
-    var arr3 : String? = null
+
+}
+
+
+inline fun f( crossinline body:()->Unit){
+    val f = object :Runnable{
+        override fun run() = body()
+    }
+}
+
+
+inline  fun map(data:Array<Int>,fn : (Int)->Int) : Array<Int>{//内联函数，即编译器将内联函数里面调用的函数代码(仅限代码少的函数多点则弊大于利)复制到内联函数的执行代码中，而不是普通的将调用的函数创建函数对象（再压栈、出栈）
+
+    var result = Array<Int>(data.size,{0})
+    for(i in data.indices){
+        result[i] = fn(data[i])
+    }
+    return result
+}
+
+
+
+inline  fun map1(data:Array<Int>,fn : (Int)->Int, noinline fn1 : (Int)->Int) : Array<Int>{//参数三fn1不会内联，通过noinline 关键字取消不想内联的函数
+
+    var result = Array<Int>(data.size,{0})
+    for(i in data.indices){
+        result[i] = fn(data[i])
+    }
+    return result
+}
+
+private fun set() {
+    var arr3: String? = null
 //    arr3?.lastIndex//此写法不会有空指针异常
 //    arr3!!.length //此写法如果arr3为空指针则报异常
 
 
-    var set = setOf("java","kotlin","Go")//不可变集合
-    var hashSet = hashSetOf("java","kotlin","Go")//不可变集合
-    var mutableSet = mutableSetOf("java","kotlin","Go")//创建可变的集合
-    var linkedHashSet = linkedSetOf("java","kotlin","Go")//创建顺序的集合
-    var treeSet = sortedSetOf("java","kotlin","Go")//创建从小到大顺序的集合
+    var set = setOf("java", "kotlin", "Go")//不可变集合
+    var hashSet = hashSetOf("java", "kotlin", "Go")//不可变集合
+    var mutableSet = mutableSetOf("java", "kotlin", "Go")//创建可变的集合
+    var linkedHashSet = linkedSetOf("java", "kotlin", "Go")//创建顺序的集合
+    var treeSet = sortedSetOf("java", "kotlin", "Go")//创建从小到大顺序的集合
     println(mutableSet)//集合元素按添加的顺序
     println(set)
     println(hashSet)
@@ -81,6 +129,7 @@ private fun varDemo() {
     println(txts)
     println(st.javaClass)
     val p: Predicate<String> = { it.length > 4 }
+    val pro :Production<String> = {it.length>100}
 
     println(arrayOf("java", "object-c", "go", "kotlin").filter(p))
     var so = 20
