@@ -13,7 +13,7 @@ public class Demo {
      */
     public void sun(String... a){
         for (String s : a) {
-            
+            TestKKt.main();
         }
     }
 
