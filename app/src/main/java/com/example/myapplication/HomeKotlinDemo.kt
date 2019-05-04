@@ -186,6 +186,9 @@ enum class Name( val mingzi: String) : D{
 
 }
 
+/**
+ * 对象声明，一般用于单例
+ */
 object obj4 : A,C(){//对象声明
 
 }
