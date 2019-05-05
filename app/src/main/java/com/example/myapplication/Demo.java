@@ -13,5 +13,26 @@ public class Demo {
         for (String s : a) {
             TestKKt.main();
         }
+        Object o = new AI() {
+            @Override
+            public int hashCode() {
+                return super.hashCode();
+            }
+        };
+    }
+
+
+    interface AI{
+
+    }
+
+    public static class DemoInner{
+
+    }
+
+    public  class DemoInne2r{
+
     }
 }
+
+

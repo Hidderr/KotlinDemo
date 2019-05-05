@@ -53,6 +53,14 @@ fun main() {
     }
 
 //    TODO("kotlin的final关键字不能修饰局部遍历")
+
+
+    var inc = Bannaer().B()//创建非静态内部类
+    var inc2 = Bannaer.C()//创建静态内部类
+
+    var t = Runnable {
+        println("kotlin的匿名内部类" )
+    }
 }
 
 
@@ -67,14 +75,33 @@ sealed class Fruit(){
 class Bannaer :Fruit(){
     override fun honey() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        class Hc{//局部嵌套类
+
+        }
+    }
+
+
+    inner class B{//非静态内部类
+
+    }
+
+    class C{//静态内部类，嵌套类，只能访问其他嵌套类，不能访问其宿主类，因为宿主类是非静态的
+
     }
 
 }
 
-
+/**
+ * 接口没有初始化块
+ */
 interface A{
     var a :String
     fun getData()
+
+    class C{//静态内部类在接口中默认是public修饰符，嵌套类，只能访问其他嵌套类，不能访问其宿主类，因为宿主类是非静态的
+
+    }
 }
 
 interface B{
