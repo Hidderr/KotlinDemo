@@ -1,40 +1,189 @@
 package com.example.myapplication
 
 import java.util.*
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
+
 typealias str = String
 typealias Predicate<T> = (T)->Boolean
 
 typealias Production<T> = (T)->Boolean
 
 //lambda表达式如果可以根据上下文推断出变量类型则可以省略形参类型，如果Lambda表达式只有一个形参，那么形参的形参名也可以省略，继而->也可以省略
+//kotlin规定，如果函数的最后一个参数是函数类型，而且你如果决定传入Lambda表达式作为参数，那么运行在圆括号外指定Lambda表达式，在其他语言称为：尾随闭包
 //匿名函数如果也可以根据上下文推断出类型变量则也可以省略形参类型
 
 fun main() {
 
-    set()
-
-    var listV = listOf("java","kotlin","Go")
-    listV.dropWhile { it.length>3 }
-
-    var filterList = listOf(3,5,20,100,34).filter (fun(el):Boolean {return Math.abs(el)>20}) //匿名函数
-    var rt = listOf<Int>(3,5,20,100,34).filter(fun(el) = Math.abs(el)>20)//使用单表达式的匿名函数，可以省略返回值类型
-
-    listV.forEach(fun(n){
-        println("匿名函数： $n")//匿名函数的return则返回自身不起作用
-        return
-    })
-    listV.forEach { println("lambda值：$it")
-        return }//内联函数（非内联函数的lambda表达式中不能有return）、lambda添加return则lambda结束其所在函数结束执行
-
+    localDelegate()
 
 
 }
 
+private fun mapAsDelegate() {
+    val item = MutableItem(mutableMapOf())
+    item.barCoe = "jjjf "
+    item.barCoe1 = "jjjf 11"
+    item.barCoe2 = "jjjf 22"
+    val map = item.map
+    println(map["barCoe"])
+    println(map["barCoe1"])
+    println(map["barCoe2"])
+    map["barCoe1"] = "Lis"
+    println(item.barCoe1)
+}
+
+private fun lazyProp() {
+    //    println("延迟属性：$lazyProp")
+//    println("延迟属性：$lazyProp")
+}
+
+private fun delegateAttribute() {
+    val pd = PropertyDelegation()
+    println("代理属性：" + pd.name)
+    pd.name = "修改后的代理属性"
+    println("代理属性222：" + pd.name)
+}
+
+fun localDelegate(){
+    var name : String  by LocalDel()
+    println("局部代理属性： $name")
+    name = "修改"
+
+    println("局部代理属性 修改过后的值为： $name")
+
+    val age : Int by lazy {//通过lazy作为代理属性
+        println("计算局部变量")
+        4
+    }
+
+    println("局部代理属性 使用lazy为： $age")
+    println("局部代理属性 使用lazy为： $age")
+}
+
+
+
+
+class LocalDel : ReadWriteProperty<Nothing?, String> {
+    private  var _backValue: String="默认值"
+
+    override fun getValue(thisRef: Nothing?, property: KProperty<*>): String {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            println("${thisRef}的${property.name}属性执行getter方法" )
+        return _backValue
+    }
+
+    override fun setValue(thisRef: Nothing?, property: KProperty<*>, value: String) {
+        println("${thisRef}的${property.name}属性执行 setter 方法 传入的参数位： $value" )
+        _backValue  = value
+    }
+
+}
+
+/**
+ * lazy: 其值只在首次访问时计算
+ */
+
+val lazyProp: String by lazy(LazyThreadSafetyMode.PUBLICATION){//多个线程可以同步执行
+    println("第一次方位代码块")
+    "延迟驰书实话"
+}
+
+private fun delegateObject() {
+    val output = DefaultOutput()
+    var printer = Printer(output)
+    printer.b
+    var projector = Projector()
+    printer.output(
+        "委托方法调用 通过b参数" +
+                ""
+    )
+    projector.output("委托方法调用 通过实现类")
+    println("委托属性：" + projector.type)
+}
+
+private fun niming() {
+    println("静态常量： $haha")
+
+    var listV = listOf("java", "kotlin", "Go")
+    listV.dropWhile { it.length > 3 }
+
+    var filterList = listOf(3, 5, 20, 100, 34).filter(fun(el): Boolean { return Math.abs(el) > 20 }) //匿名函数
+    var rt = listOf<Int>(3, 5, 20, 100, 34).filter(fun(el) = Math.abs(el) > 20)//使用单表达式的匿名函数，可以省略返回值类型
+
+    listV.forEach(fun(n) {
+        println("匿名函数： $n")//匿名函数的return则返回自身不起作用
+        return
+    })
+    listV.forEach {
+        println("lambda值：$it")
+        return
+    }//内联函数（非内联函数的lambda表达式中不能有return）、lambda添加return则lambda结束其所在函数结束执行
+}
+
+
+interface Outputable{
+    fun output(msg:String)
+    var type: String
+}
+
+class DefaultOutput: Outputable{
+    override fun output(msg: String) {
+        println("代理类时效的方法")
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override var type: String
+        get() = "代理类实现的属性"//TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        set(value) {}
+
+}
+
+/**
+ * 使用 by 关键 用于代理对象，如果原对象覆盖了方法，则优先调用原对象的而不是代理对象的
+ */
+class Printer(val b: DefaultOutput):Outputable by b
+class Projector(): Outputable by DefaultOutput(){
+    override fun output(msg: String) {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("原类实现的输出方法")
+    }
+
+}
+
+class PropertyDelegation{
+    var name: String by MyDelegation()
+}
+
+class MyDelegation : ReadWriteProperty<PropertyDelegation, String> {
+    private var _backValue = "默认值"
+    override fun getValue(thisRef: PropertyDelegation, property: KProperty<*>): String {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("${thisRef}的${property.name}属性执行getter方法" )
+        return _backValue
+    }
+
+    /**
+     * @param thisRef
+     */
+    override fun setValue(thisRef: PropertyDelegation, property: KProperty<*>, value: String) {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("${thisRef}的${property.name}属性执行 setter 方法 传入的参数位： $value" )
+        _backValue  = value
+    }
+
+}
+
+
+
 
 inline fun f( crossinline body:()->Unit){
+
     val f = object :Runnable{
         override fun run() = body()
     }
+
+
 }
 
 
@@ -136,6 +285,16 @@ private fun varDemo() {
     println("方法为负" + so.unaryMinus())
 }
 
+
+/**
+ * 使用map作为对象的属性代理
+ */
+class MutableItem(val map: MutableMap<String, Any?>){
+    var barCoe: String by map
+    var barCoe1: String by map
+    var barCoe2: String by map
+}
+
 private fun testDemo() {
     println("how art you:  " + Short.MAX_VALUE + " int _max: " + Int.MAX_VALUE)
 
@@ -198,6 +357,42 @@ private fun testDemo() {
 //    """.trimIndent("^")
 }
 
+
+class MyTarget{
+    var name: String by PropertyChecker()
+}
+
+/**
+ * 代理工厂
+ */
+class PropertyChecker(){
+    operator fun provideDelegate(thisRef:MyTarget,prp:KProperty<*>):ReadWriteProperty<MyTarget,String>{
+        println("代理工厂")
+        return MyDelegation1()
+    }
+}
+
+
+class MyDelegation1 : ReadWriteProperty<MyTarget, String> {
+    private var _backValue = "默认值"
+    override fun getValue(thisRef: MyTarget, property: KProperty<*>): String {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("${thisRef}的${property.name}属性执行getter方法" )
+        return _backValue
+    }
+
+    /**
+     * @param thisRef
+     */
+    override fun setValue(thisRef: MyTarget, property: KProperty<*>, value: String) {
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        println("${thisRef}的${property.name}属性执行 setter 方法 传入的参数位： $value" )
+        _backValue  = value
+    }
+
+}
+
+
 class Test{
 
     fun testVar(){
@@ -219,5 +414,8 @@ class Test{
 
 
     }
+
+
+
 
 }

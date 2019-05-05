@@ -1,5 +1,8 @@
 package com.example.myapplication
 
+import com.example.myapplication.home.HomeKotlinDemo
+import com.example.myapplication.home.outer
+
 /**
  * Created by Alan on 2019/4/28.
  * 功能：
