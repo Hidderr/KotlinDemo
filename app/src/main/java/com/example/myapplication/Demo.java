@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import com.example.myapplication.home.BCompannion;
+
 import java.util.ArrayList;
 
 /**
@@ -12,6 +14,10 @@ public class Demo {
      *
      */
     public void sun(String... a){
+
+        String s2 = BCompannion.testV;
+        BCompannion.lateV =  "延迟初始化";
+        int s1 = new BCompannion().age;
         for (String s : a) {
             TestKKt.main();
         }

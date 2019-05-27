@@ -209,6 +209,25 @@ class B{
     }
 }
 
+class BCompannion{
+    @JvmField var age = 3
+    object obj3 : A,C(){//伴随对象，即
+    fun test1(){
+        println("对象test1")
+    }
+    }
+
+
+    companion object obj4 : A,C(){//伴随对象，即companion修饰的对象，外部类可以直接访问其属性以及方法，用于弥补java的静态方法
+        lateinit var lateV : String//延迟初始化属性
+    @JvmField var testV = "哈哈哈回复"
+
+        fun test4(){
+            println("对象test4")
+        }
+    }
+}
+
 
 fun B.obj4.foo(){
     println("伴随对象的函数扩展111")
