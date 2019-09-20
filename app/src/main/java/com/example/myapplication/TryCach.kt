@@ -1,5 +1,8 @@
 package com.example.myapplication
 
+import java.io.IOException
+import java.net.*
+
 class TryCach {
     var ex = try {//try表达式
         "张三"
@@ -8,6 +11,19 @@ class TryCach {
     }
 
     fun et(a: Int){
+
+        URL("").openConnection(Proxy.NO_PROXY)
+       ProxySelector.getDefault()
+//        java.lang.reflect.Proxy.newProxyInstance()
+        ProxySelector.setDefault(object : ProxySelector(){//匿名对象
+            override fun select(uri: URI?): MutableList<Proxy> {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
        if(a>0){
            throw java.lang.Exception("Java异常")
        }else{

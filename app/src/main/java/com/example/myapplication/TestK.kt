@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import com.example.myapplication.home.haha
 import java.util.*
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -19,6 +20,7 @@ fun main() {
 
 
 }
+
 
 private fun mapAsDelegate() {
     val item = MutableItem(mutableMapOf())
@@ -52,6 +54,15 @@ fun localDelegate(){
 
     println("局部代理属性 修改过后的值为： $name")
 
+
+    /**
+     * lazy:
+     * lazy 应用于单例模式(if-null-then-init-else-return)，而且当且仅当变量被第一次调用的时候，委托方法才会执行。
+
+    lazy()是接受一个 lambda 并返回一个 Lazy <T> 实例的函数，返回的实例可以作为实现延迟属性的委托： 第一次调用 get() 会执行已传递给 lazy() 的 lambda 表达式并记录结果， 后续调用 get() 只是返回记录的结果。
+
+   同时也可以用于同步
+     */
     val age : Int by lazy {//通过lazy作为代理属性
         println("计算局部变量")
         4

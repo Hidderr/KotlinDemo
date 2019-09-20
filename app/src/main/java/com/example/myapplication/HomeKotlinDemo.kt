@@ -12,7 +12,7 @@ open class HomeKotlinDemo{
     }
 }
 
-object Object1{
+object Object1{//object关键字可以用作声明单例
 
 }
 
@@ -22,6 +22,14 @@ fun HomeKotlinDemo.info(){//添加类的扩展函数
 
 fun HomeKotlinDemo.outer(){//添加类的扩展函数
     println("额外添加函数")
+    /*Observable.create(ObservableOnSubscribe<Int> {
+        emitter ->  emitter.onNext(1)
+        emitter.onNext(2)
+        emitter.onNext(3)
+    }).flatMap(Function <Int,ObservableSource<String>>{
+        arrayListOf<String>()
+
+    })*/
 }
 open class SubHomeDemo:HomeKotlinDemo()
 fun SubHomeDemo.info(){//子类扩展函数与父类扩展函数同名，不用覆盖
@@ -218,6 +226,17 @@ class BCompannion{
     }
 
 
+    /**
+     * lateinit
+     *   lateinit var只能用来修饰类属性，不能用来修饰局部变量，并且只能用来修饰对象，不能用来修饰基本类型(因为基本类型的属性在类加载后的准备阶段都会被初始化为默认值)。
+      lateinit var的作用也比较简单，就是让编译期在检查时不要因为属性变量未被初始化而报错。
+      Kotlin相信当开发者显式使用lateinit var 关键字的时候，他一定也会在后面某个合理的时机将该属性对象初始化的(然而，谁知道呢，也许他用完才想起还没初始化)。
+
+    作者：咸鱼不思议
+    链接：https://juejin.im/post/5affc369f265da0b9b079629
+    来源：掘金
+    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     */
     companion object obj4 : A,C(){//伴随对象，即companion修饰的对象，外部类可以直接访问其属性以及方法，用于弥补java的静态方法
         lateinit var lateV : String//延迟初始化属性
     @JvmField var testV = "哈哈哈回复"
