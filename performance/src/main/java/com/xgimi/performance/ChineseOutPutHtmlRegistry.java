@@ -18,7 +18,7 @@ public class ChineseOutPutHtmlRegistry extends TaskResultRegistry {
     @Override
     public Map<String, Class<? extends TaskHtmlResult>> getHtmlResult() {
         Map<String, Class<? extends TaskHtmlResult>> map = new HashMap<>();
-        map.put("apk_check_resultXGIMI.html",ChineseOutPutHtmlTask.class);
+        map.put("xgimi_apk_check_result.html",ChineseOutPutHtmlTask.class);
         return map;
     }
 

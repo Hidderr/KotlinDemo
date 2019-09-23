@@ -20,10 +20,11 @@ import java.util.Map;
  * @description:
  */
 public class ChineseOutPutHtmlTask extends TaskHtmlResult {
-
     private static final int MAX_SHOW_ITEMS = 10;
     private static final String FOLDER_STYLE = "color:white;font-size:20px;background-color:#C0C0C0";
     private static final String FOLDER_ONCLICK = "root = this.parentNode.parentNode; next = root.nextSibling; while (next != null) { if (next.hasAttribute('hidden')) { next.removeAttribute('hidden');} else { break; } next = next.nextSibling; } root.parentNode.removeChild(root)";
+    private static final String TAG = "ChineseOutPutHtmlTask";
+    private static final String HTML_TITLE_CONTENT = "APK大小检测报告";
 
     public ChineseOutPutHtmlTask(int type, JsonObject config) throws ParserConfigurationException {
         super(type, config);
@@ -31,8 +32,14 @@ public class ChineseOutPutHtmlTask extends TaskHtmlResult {
 
     @Override
     public void format(JsonObject jsonObject) throws ParserConfigurationException {
+//        if(true){
+//            addHtmlTitle();
+//            return;
+//        }
+
         MMTaskJsonResult.formatJson(jsonObject, (JsonObject)null, this.config);
         int taskType = jsonObject.get("taskType").getAsInt();
+        System.out.println("............   format taskType: "+taskType+this.document.getDocumentElement());
         Element element;
         switch(taskType) {
             case 1:
@@ -87,7 +94,7 @@ public class ChineseOutPutHtmlTask extends TaskHtmlResult {
             }
 
             Element span = this.document.createElement("span");
-            span.setAttribute("style", "color:yellow;font-size:20px;background-color:#C0C0C0");
+            span.setAttribute("style", "color:white;font-size:20px;background-color:#C0C0C0");
             span.setAttribute("onClick", "root = this.parentNode.parentNode; next = root.nextSibling; while (next != null) { if (next.hasAttribute('hidden')) { next.removeAttribute('hidden');} else { break; } next = next.nextSibling; } root.parentNode.removeChild(root)");
             span.setTextContent("...");
             Element folder = null;
@@ -118,7 +125,20 @@ public class ChineseOutPutHtmlTask extends TaskHtmlResult {
 
     }
 
+    private void addHtmlTitle() {
+        System.out.println(TAG + "addHtmlTitle: startCreateTitle");
+        Element title = this.document.createElement("div");
+        System.out.println(TAG + "addHtmlTitle: hascreate");
+        title.setTextContent(HTML_TITLE_CONTENT);
+        title.setAttribute("width", "100%");
+        title.setAttribute("style", "text-align: center");
+        System.out.println(TAG + "addHtmlTitle: addAttribute");
+        this.document.appendChild(title);
+        System.out.println(TAG + "addHtmlTitle: addChild");
+    }
+
     private Element formatUnzipTask(JsonObject jsonObject) {
+        addHtmlTitle();
         Element table = this.document.createElement("table");
         table.setAttribute("border", "1");
         table.setAttribute("width", "100%");
@@ -148,14 +168,14 @@ public class ChineseOutPutHtmlTask extends TaskHtmlResult {
                 JsonElement file = (JsonElement)var13.next();
                 String suffix = ((JsonObject)file).get("suffix").getAsString();
                 long size = ((JsonObject)file).get("total-size").getAsLong();
-                Element tr0 = this.document.createElement("tr");
-                Element td11 = this.document.createElement("td");
-                td1.setTextContent(suffix);
-                Element td22 = this.document.createElement("td");
-                td2.setTextContent(Util.formatByteUnit(size));
-                tr0.appendChild(td11);
-                tr0.appendChild(td22);
-                table.appendChild(tr0);
+                Element trS1 = this.document.createElement("tr");
+                Element td1S1 = this.document.createElement("td");
+                td1S1.setTextContent(suffix);
+                Element td2S1 = this.document.createElement("td");
+                td2S1.setTextContent(Util.formatByteUnit(size));
+                trS1.appendChild(td1S1);
+                trS1.appendChild(td2S1);
+                table.appendChild(trS1);
             }
 
             return table;
@@ -182,14 +202,14 @@ public class ChineseOutPutHtmlTask extends TaskHtmlResult {
 
             while(var10.hasNext()) {
                 Map.Entry<String, JsonElement> entry = (Map.Entry)var10.next();
-                Element tr3 = this.document.createElement("tr");
-                Element td14 = this.document.createElement("td");
-                td1.setTextContent((String)entry.getKey());
-                Element td24 = this.document.createElement("td");
-                td2.setTextContent(((JsonElement)entry.getValue()).getAsString());
-                tr3.appendChild(td14);
-                tr3.appendChild(td24);
-                table.appendChild(tr3);
+                Element trS2 = this.document.createElement("tr");
+                Element td1S2 = this.document.createElement("td");
+                td1S2.setTextContent((String)entry.getKey());
+                Element td2S2 = this.document.createElement("td");
+                td2S2.setTextContent(((JsonElement)entry.getValue()).getAsString());
+                trS2.appendChild(td1S2);
+                trS2.appendChild(td2S2);
+                table.appendChild(trS2);
             }
 
             return table;
@@ -218,14 +238,14 @@ public class ChineseOutPutHtmlTask extends TaskHtmlResult {
                 JsonElement file = (JsonElement)var11.next();
                 String filename = ((JsonObject)file).get("entry-name").getAsString();
                 if (!Util.isNullOrNil(filename)) {
-                    Element tr5 = this.document.createElement("tr");
-                    Element td15 = this.document.createElement("td");
-                    td1.setTextContent(filename);
-                    Element td25 = this.document.createElement("td");
-                    td2.setTextContent(Util.formatByteUnit(((JsonObject)file).get("entry-size").getAsLong()));
-                    tr5.appendChild(td15);
-                    tr5.appendChild(td25);
-                    table.appendChild(tr5);
+                    Element trS3 = this.document.createElement("tr");
+                    Element td1S3 = this.document.createElement("td");
+                    td1S3.setTextContent(filename);
+                    Element td2S3 = this.document.createElement("td");
+                    td2S3.setTextContent(Util.formatByteUnit(((JsonObject)file).get("entry-size").getAsLong()));
+                    trS3.appendChild(td1S3);
+                    trS3.appendChild(td2S3);
+                    table.appendChild(trS3);
                 }
             }
 
@@ -240,28 +260,28 @@ public class ChineseOutPutHtmlTask extends TaskHtmlResult {
         if (jsonObject == null) {
             return table;
         } else {
-            Element t = this.document.createElement("tr");
-            Element tr = this.document.createElement("td");
-            tr.setTextContent("taskDescription");
+            Element tr = this.document.createElement("tr");
+            Element td = this.document.createElement("td");
+            td.setTextContent("taskDescription");
             Element td1 = this.document.createElement("td");
             td1.setTextContent(jsonObject.get("taskDescription").getAsString());
-            t.appendChild(tr);
-            t.appendChild(td1);
-            table.appendChild(t);
+            tr.appendChild(td);
+            tr.appendChild(td1);
+            table.appendChild(tr);
             JsonArray groups = jsonObject.getAsJsonArray("groups");
             Iterator var11 = groups.iterator();
 
             while(var11.hasNext()) {
                 JsonElement entry = (JsonElement)var11.next();
                 JsonObject object = (JsonObject)entry;
-                Element tr6 = this.document.createElement("tr");
-                Element td16 = this.document.createElement("td");
-                td1.setTextContent(object.get("name").getAsString());
-                Element td2 = this.document.createElement("td");
-                td2.setTextContent(object.get("method-count").getAsString());
-                tr6.appendChild(td16);
-                tr6.appendChild(td2);
-                table.appendChild(tr6);
+                Element trS4 = this.document.createElement("tr");
+                Element td1S4 = this.document.createElement("td");
+                td1S4.setTextContent(object.get("name").getAsString());
+                Element td2S4 = this.document.createElement("td");
+                td2S4.setTextContent(object.get("method-count").getAsString());
+                trS4.appendChild(td1S4);
+                trS4.appendChild(td2S4);
+                table.appendChild(trS4);
             }
 
             tr = this.document.createElement("tr");
@@ -299,26 +319,26 @@ public class ChineseOutPutHtmlTask extends TaskHtmlResult {
                 JsonElement file = (JsonElement)var6.next();
                 String filename = ((JsonObject)file).get("entry-name").getAsString();
                 if (!Util.isNullOrNil(filename)) {
-                    Element tr7 = this.document.createElement("tr");
-                    Element td17 = this.document.createElement("td");
-                    td1.setTextContent(filename);
-                    Element td27 = this.document.createElement("td");
+                    Element trS5 = this.document.createElement("tr");
+                    Element td1S5 = this.document.createElement("td");
+                    td1S5.setTextContent(filename);
+                    Element td2S5 = this.document.createElement("td");
                     totalSize += ((JsonObject)file).get("entry-size").getAsLong();
-                    td2.setTextContent(Util.formatByteUnit(((JsonObject)file).get("entry-size").getAsLong()));
-                    tr7.appendChild(td17);
-                    tr7.appendChild(td27);
-                    table.appendChild(tr7);
+                    td2S5.setTextContent(Util.formatByteUnit(((JsonObject)file).get("entry-size").getAsLong()));
+                    trS5.appendChild(td1S5);
+                    trS5.appendChild(td2S5);
+                    table.appendChild(trS5);
                 }
             }
 
-            Element tr8 = this.document.createElement("tr");
-            Element td18 = this.document.createElement("td");
-            td1.setTextContent("total-size");
-            Element td28 = this.document.createElement("td");
-            td2.setTextContent(Util.formatByteUnit(totalSize));
-            tr8.appendChild(td18);
-            tr8.appendChild(td28);
-            table.appendChild(tr8);
+            Element tr2 = this.document.createElement("tr");
+            Element td11 = this.document.createElement("td");
+            td11.setTextContent("total-size");
+            Element td22 = this.document.createElement("td");
+            td22.setTextContent(Util.formatByteUnit(totalSize));
+            tr2.appendChild(td11);
+            tr2.appendChild(td22);
+            table.appendChild(tr2);
             return table;
         }
     }
@@ -344,17 +364,19 @@ public class ChineseOutPutHtmlTask extends TaskHtmlResult {
             while(var11.hasNext()) {
                 JsonElement jsonElement = (JsonElement)var11.next();
                 JsonObject jsonObj = jsonElement.getAsJsonObject();
-                Element tr9 = this.document.createElement("tr");
-                Element td19 = this.document.createElement("td");
-                td1.setTextContent(jsonObj.get("suffix").getAsString());
-                Element td29 = this.document.createElement("td");
-                td2.setTextContent(Util.formatByteUnit(jsonObj.get("total-size").getAsLong()));
-                tr9.appendChild(td19);
-                tr9.appendChild(td29);
-                table.appendChild(tr9);
+                Element trS6 = this.document.createElement("tr");
+                Element td1S6 = this.document.createElement("td");
+                td1S6.setTextContent(jsonObj.get("suffix").getAsString());
+                Element td2S6 = this.document.createElement("td");
+                td2S6.setTextContent(Util.formatByteUnit(jsonObj.get("total-size").getAsLong()));
+                trS6.appendChild(td1S6);
+                trS6.appendChild(td2S6);
+                table.appendChild(trS6);
             }
 
             return table;
         }
     }
+
+
 }
