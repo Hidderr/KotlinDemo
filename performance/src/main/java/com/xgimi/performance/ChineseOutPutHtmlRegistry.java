@@ -1,5 +1,7 @@
 package com.xgimi.performance;
 
+import android.app.KeyguardManager;
+
 import com.tencent.matrix.apk.model.result.TaskHtmlResult;
 import com.tencent.matrix.apk.model.result.TaskJsonResult;
 import com.tencent.matrix.apk.model.result.TaskResultRegistry;
@@ -21,6 +23,8 @@ public class ChineseOutPutHtmlRegistry extends TaskResultRegistry {
         map.put("xgimi_apk_check_result.html",ChineseOutPutHtmlTask.class);
         return map;
     }
+
+    KeyguardManager
 
     @Override
     public Map<String, Class<? extends TaskJsonResult>> getJsonResult() {

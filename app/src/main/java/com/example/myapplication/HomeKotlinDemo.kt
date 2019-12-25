@@ -2,6 +2,7 @@ package com.example.myapplication.home
 
 import kotlin.properties.Delegates
 
+const val TEST = false
 open class HomeKotlinDemo{
     fun info(){
         println("成员函数比相同签名的扩展函数调用优先级高")
