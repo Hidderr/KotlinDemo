@@ -77,7 +77,7 @@ sealed class Fruit(){
 
 class Bannaer :Fruit(){
     override fun honey() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
 
         class Hc{//局部嵌套类
 

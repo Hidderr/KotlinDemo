@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:drawable="@drawable/vector_play">
+
+    <!-- 变化内容 -->
+    <target
+            android:animation="@animator/animator_play_pause"
+            android:name="play"/>
+
+    <!-- 旋转 -->
+    <target
+            android:animation="@animator/animator_rotate"
+            android:name="playgroup"/>
+
+    <!-- 改变颜色 -->
+    <target
+            android:animation="@animator/chage_color"
+            android:name="play"/>
+
+
+    <!-- 改变颜色 -->
+    <target
+            android:animation="@animator/scale"
+            android:name="playgroup"/>
+
+
+<!--    &lt;!&ndash; 改变颜色 &ndash;&gt;-->
+<!--    <target-->
+<!--            android:animation="@animator/translate"-->
+<!--            android:name="playgroup"/>-->
+
+
+</animated-vector>

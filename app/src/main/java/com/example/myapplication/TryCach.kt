@@ -17,11 +17,11 @@ class TryCach {
 //        java.lang.reflect.Proxy.newProxyInstance()
         ProxySelector.setDefault(object : ProxySelector(){//匿名对象
             override fun select(uri: URI?): MutableList<Proxy> {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
             }
 
             override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
             }
         })
        if(a>0){

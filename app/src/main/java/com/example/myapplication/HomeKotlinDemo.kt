@@ -168,19 +168,19 @@ enum class Season{//枚举类
 enum class Name( val mingzi: String) : D{
     MALE("男") {
         override fun evalute() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
         }
 
         override fun hi() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
         }
     },FEMALE("女") {
         override fun evalute() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
         }
 
         override fun hi() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
         }
     };
     fun info(){

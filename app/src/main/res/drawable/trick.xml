@@ -1,0 +1,74 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="400dp"
+        android:height="400dp"
+        android:viewportWidth="100"
+        android:viewportHeight="100">
+    <group android:rotation="0">
+        <!--        <path-->
+        <!--                android:name="path1"-->
+        <!--                android:pathData="-->
+        <!--            M 20,80-->
+        <!--            L 50,90 80,80"-->
+        <!--                android:strokeColor="@android:color/holo_green_dark"-->
+        <!--                android:strokeLineCap="round"-->
+        <!--                android:strokeWidth="5" />-->
+
+        <path
+                android:name="path2"
+                android:pathData="
+            M 20,20
+            L 50,20 80,20"
+                android:strokeWidth="5"
+                android:strokeColor="#ff00"
+                android:strokeLineCap="round" />
+
+
+        <path
+                android:name="square"
+                android:fillColor="#000000"
+                android:pathData="M100,100 L400,100 L400,400 L100,400 z" />
+    </group>
+
+    <group
+            android:name="test"
+            android:rotation="0">
+
+        <path
+
+
+                android:pathData="
+            M 25 50
+            a 25 , 25 0 1 , 0 50 ,0"
+                android:strokeWidth="2"
+                android:strokeColor="#00ffee">
+
+        </path>
+
+
+    </group>
+
+    <path
+            android:name="path1"
+            android:pathData="
+            M 20,60
+            L 30,80 80,60"
+            android:strokeWidth="5"
+            android:strokeColor="#00ee00"
+            android:strokeLineCap="round" />
+
+
+    <group
+            android:name="playgroup"
+            android:pivotX="5"
+            android:pivotY="5">
+
+        <path
+                android:name="play"
+                android:fillColor="#fff"
+                android:pathData="M 3,2 L 7,5 L7,5 L3,5z M 3,8 L7,5 L7,5 L3,5z"/>
+    </group>
+<!--    <path-->
+<!--            android:name="changep"-->
+<!--            android:fillColor="#FF000000"-->
+<!--            android:pathData="M 3,2 L 7,5 L7,5 L3,5z M 3,8 L7,5 L7,5 L3,5z" />-->
+</vector>

@@ -79,7 +79,7 @@ class LocalDel : ReadWriteProperty<Nothing?, String> {
     private  var _backValue: String="默认值"
 
     override fun getValue(thisRef: Nothing?, property: KProperty<*>): String {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
             println("${thisRef}的${property.name}属性执行getter方法" )
         return _backValue
     }
@@ -141,11 +141,11 @@ interface Outputable{
 class DefaultOutput: Outputable{
     override fun output(msg: String) {
         println("代理类时效的方法")
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
     }
 
     override var type: String
-        get() = "代理类实现的属性"//TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = "代理类实现的属性"//TODO("not implemented") //To animator_play_pause initializer of created properties use File | Settings | File Templates.
         set(value) {}
 
 }
@@ -156,7 +156,7 @@ class DefaultOutput: Outputable{
 class Printer(val b: DefaultOutput):Outputable by b
 class Projector(): Outputable by DefaultOutput(){
     override fun output(msg: String) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
         println("原类实现的输出方法")
     }
 
@@ -169,7 +169,7 @@ class PropertyDelegation{
 class MyDelegation : ReadWriteProperty<PropertyDelegation, String> {
     private var _backValue = "默认值"
     override fun getValue(thisRef: PropertyDelegation, property: KProperty<*>): String {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
         println("${thisRef}的${property.name}属性执行getter方法" )
         return _backValue
     }
@@ -178,7 +178,7 @@ class MyDelegation : ReadWriteProperty<PropertyDelegation, String> {
      * @param thisRef
      */
     override fun setValue(thisRef: PropertyDelegation, property: KProperty<*>, value: String) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
         println("${thisRef}的${property.name}属性执行 setter 方法 传入的参数位： $value" )
         _backValue  = value
     }
@@ -387,7 +387,7 @@ class PropertyChecker(){
 class MyDelegation1 : ReadWriteProperty<MyTarget, String> {
     private var _backValue = "默认值"
     override fun getValue(thisRef: MyTarget, property: KProperty<*>): String {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
         println("${thisRef}的${property.name}属性执行getter方法" )
         return _backValue
     }
@@ -396,7 +396,7 @@ class MyDelegation1 : ReadWriteProperty<MyTarget, String> {
      * @param thisRef
      */
     override fun setValue(thisRef: MyTarget, property: KProperty<*>, value: String) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
         println("${thisRef}的${property.name}属性执行 setter 方法 传入的参数位： $value" )
         _backValue  = value
     }

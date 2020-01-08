@@ -2,15 +2,11 @@ package com.example.myapplication
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
-
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.InputStream
-import java.io.OutputStream
-import java.net.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,9 +15,9 @@ class MainActivity : AppCompatActivity() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
-
+        val  t = TestP(3)
+        LogUtils.log("测试数据","t.other : ${t.other}")
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -29,72 +25,72 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        TestInstructor(this)
-
-        Socket.setSocketImplFactory(object:SocketImplFactory {
-            override fun createSocketImpl(): SocketImpl {
-                return object : SocketImpl(){
-                    override fun listen(backlog: Int) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun getOption(optID: Int): Any {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun create(stream: Boolean) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun setOption(optID: Int, value: Any?) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun connect(host: String?, port: Int) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun connect(address: InetAddress?, port: Int) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun connect(address: SocketAddress?, timeout: Int) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun bind(host: InetAddress?, port: Int) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun accept(s: SocketImpl?) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun getOutputStream(): OutputStream {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun available(): Int {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun sendUrgentData(data: Int) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun getInputStream(): InputStream {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun close() {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-
-                }
-
-            }
-        })
+//        TestInstructor(this)
+//
+//        Socket.setSocketImplFactory(object:SocketImplFactory {
+//            override fun createSocketImpl(): SocketImpl {
+//                return object : SocketImpl(){
+//                    override fun listen(backlog: Int) {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun getOption(optID: Int): Any {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun create(stream: Boolean) {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun setOption(optID: Int, value: Any?) {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun connect(host: String?, port: Int) {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun connect(address: InetAddress?, port: Int) {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun connect(address: SocketAddress?, timeout: Int) {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun bind(host: InetAddress?, port: Int) {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun accept(s: SocketImpl?) {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun getOutputStream(): OutputStream {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun available(): Int {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun sendUrgentData(data: Int) {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun getInputStream(): InputStream {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun close() {
+//                        TODO("not implemented") //To animator_play_pause body of created functions use File | Settings | File Templates.
+//                    }
+//
+//
+//                }
+//
+//            }
+//        })
 
     }
 

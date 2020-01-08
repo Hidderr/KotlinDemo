@@ -1,12 +1,9 @@
 package com.xgimi.performance;
 
-import android.app.KeyguardManager;
-
 import com.tencent.matrix.apk.model.result.TaskHtmlResult;
 import com.tencent.matrix.apk.model.result.TaskJsonResult;
 import com.tencent.matrix.apk.model.result.TaskResultRegistry;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,15 +16,24 @@ import java.util.Map;
 public class ChineseOutPutHtmlRegistry extends TaskResultRegistry {
     @Override
     public Map<String, Class<? extends TaskHtmlResult>> getHtmlResult() {
-        Map<String, Class<? extends TaskHtmlResult>> map = new HashMap<>();
-        map.put("xgimi_apk_check_result.html",ChineseOutPutHtmlTask.class);
-        return map;
+        return null;
     }
-
-    KeyguardManager
 
     @Override
     public Map<String, Class<? extends TaskJsonResult>> getJsonResult() {
-        return new HashMap<>();
+        return null;
     }
+//    @Override
+//    public Map<String, Class<? extends TaskHtmlResult>> getHtmlResult() {
+//        Map<String, Class<? extends TaskHtmlResult>> map = new HashMap<>();
+//        map.put("xgimi_apk_check_result.html",ChineseOutPutHtmlTask.class);
+//        return map;
+//    }
+//
+//    KeyguardManager
+//
+//    @Override
+//    public Map<String, Class<? extends TaskJsonResult>> getJsonResult() {
+//        return new HashMap<>();
+//    }
 }

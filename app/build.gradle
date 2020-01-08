@@ -8,17 +8,25 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.myapplication"
-        minSdkVersion 15
-        targetSdkVersion 22
+        minSdkVersion 17
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
     compileOptions {
         sourceCompatibility = 1.8
@@ -45,4 +53,5 @@ dependencies {
     implementation files('lib/performance.jar')
     implementation 'com.inuker.bluetooth:library:1.4.0'
 //    implementation files('lib/matrix-apk-canary-0.6.0.jar')
+    implementation 'com.github.tarek360.RichPath:animator:0.1.1'
 }

@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.myapplication.LogUtils;
 import com.example.myapplication.MyApplication;
@@ -40,7 +41,7 @@ import java.util.concurrent.Executors;
  * @description:
  */
 public class BlueToothUtils {
-    public static final UUID UUID = java.util.UUID.fromString("00000000-0000-0000-0000-000000000000");
+    public static  UUID UUID = java.util.UUID.fromString("CBBFE0E1-F7F3-4206-84E0-84CBB3D09DFC");
     private final String TAG = this.getClass().getSimpleName();
     private static BlueToothUtils utils = null;
     public static final String MA_HUAWEI = "AC:92:32:26:CF:4D";
@@ -49,6 +50,7 @@ public class BlueToothUtils {
     public static final String MA_MEIZU = "38:BC:1A:40:6D:AA";
     public static final String MA_TV1 = "50:13:95:97:01:AD";
     public static final String MA_TV = "50:13:95:A9:B5:58";
+    public static final String MA_TV2 = "60:23:A4:5C:94:3B";
     public static  String MA = MA_TV1;
     private BluetoothAdapter bluetoothAdapter;
     public final UUID SPP_UUID = java.util.UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -62,6 +64,7 @@ public class BlueToothUtils {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            Toast.makeText(MyApplication.context, msg.obj.toString(), Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -69,7 +72,6 @@ public class BlueToothUtils {
 
     private boolean enabled = false;//蓝牙是否可用
     private final int SCANTIME = 15*1000;//扫描时间
-    private final int requestCode = 2002;//
     private OutputStream outputStream;
     private boolean isExit;
     public BluetoothServerSocket serverSocket;
@@ -204,7 +206,7 @@ public class BlueToothUtils {
                         }
                         LogUtils.log(TAG,"找到笃定已配对蓝牙" + device.getName()+" address: "+device.getAddress());
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
+                            LogUtils.log(TAG,"开始连接蓝牙--1111111111111" );
                             connet(device);
                         }
                         findDevice = true;
@@ -224,6 +226,8 @@ public class BlueToothUtils {
         }
     }
 
+    boolean cancelScanBluetooth = true;
+
     /**
      * 扫描设备
      */
@@ -241,24 +245,7 @@ public class BlueToothUtils {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (bluetoothAdapter != null) {
-                                bluetoothAdapter.cancelDiscovery();
-                            }
-
-                            if (deviceList != null) {
-                                for (BluetoothDevice device : deviceList) {
-                                    if (device.getAddress().equals(MA)) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                            device.createBond();
-                                            LogUtils.log(TAG,"》》》》》》》》》》》》》》》》》》》》》》》开始配对" + device.getName()+" address: "+device.getAddress());
-
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-//                            handler.sendEmptyMessage(BluetoothActivity.SCAN_CLOSE);
-                            LogUtils.log("BlueToothUtils", "停止扫描设备  "+deviceList);
+                            cancelBluetoothDiscover(null);
                         }
                     }, SCANTIME);
                 }
@@ -266,16 +253,38 @@ public class BlueToothUtils {
 //                connetGatt();
                 // 寻找蓝牙设备，android会将查找到的设备以广播形式发出去
                 this.bluetoothAdapter.startDiscovery();
+                cancelScanBluetooth = false;
                 LogUtils.log("BlueToothUtils", "开始扫描设备");
             }else {
                 if (handler != null){
                     handler.removeCallbacksAndMessages(null);
-//                    handler.sendEmptyMessage(BluetoothActivity.SCAN_CLOSE);
                 }
                 bluetoothAdapter.cancelDiscovery();
+                cancelScanBluetooth = true;
                 LogUtils.log("BlueToothUtils", "停止扫描设备");
             }
         }
+    }
+
+    private void cancelBluetoothDiscover(BluetoothDevice device) {
+        if (cancelScanBluetooth) {
+            return;
+        }
+        if (bluetoothAdapter != null) {
+            cancelScanBluetooth = true;
+            bluetoothAdapter.cancelDiscovery();
+        }
+        if (device == null) {
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                device.createBond();
+
+            LogUtils.log(TAG,"》》》》》》》》》》》》》》》》》》》》》》》开始配对" + device.getName()+" address: "+device.getAddress());
+
+        }
+        LogUtils.log("BlueToothUtils", "停止扫描设备  "+deviceList);
     }
 
     /**
@@ -308,19 +317,6 @@ public class BlueToothUtils {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-//                LogUtils.log(TAG,"搜索到蓝牙设备地址:" + device.getAddress());
-//                deviceList.add(device);
-
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-                LogUtils.log(TAG,"搜索蓝牙设备中...");
-
-            }
-
-
-
             //【1】【开、关】蓝牙开、关状态
             int bluetooth_state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1);
             int bluetooth_previous_state =intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, -1);
@@ -349,12 +345,12 @@ public class BlueToothUtils {
             if(BluetoothDevice.ACTION_FOUND.equals(action)){
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-                    deviceList.add(device);
-                    if (handler != null){
-//                        handler.sendEmptyMessage(BluetoothActivity.SCAN_SUCC);
+                    if (MA.equals(device.getAddress())) {
+                        cancelBluetoothDiscover(device);
                     }
+
                 }
-                LogUtils.log(TAG,"2222222222222搜索到蓝牙设备名称:" + device.getName()+"  device.getBondState() :");
+                LogUtils.log(TAG,"2222222222222搜索到蓝牙设备名称:" + device.getName()+"  device.getBondState() : "+device.getBondState()+"  address: "+device.getAddress());
 
             }
 
@@ -389,7 +385,7 @@ public class BlueToothUtils {
      * 选择链接蓝牙设备
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public synchronized void connet(BluetoothDevice device){
+    public  void connet(BluetoothDevice device){
         hasBond = true;
         if (bluetoothAdapter != null && device != null){
             LogUtils.log(TAG,"开始连接蓝牙--" + device.getName()+" socket: "+mSocket);
@@ -407,7 +403,7 @@ public class BlueToothUtils {
                     @Override
                     public void run() {
                         try {
-                            receiveDate(mSocket); //循环读取
+                            receiveDate(mSocket);
                             asynWhile();
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -485,6 +481,7 @@ public class BlueToothUtils {
             try {
                 // Connect the device through the socket. This will block
                 // until it succeeds or throws an exception
+                Thread.sleep(500);
                 mSocket.connect();
                 LogUtils.log(TAG,"client端socet创建成功--" );
             } catch (IOException connectException) {
@@ -521,15 +518,19 @@ public class BlueToothUtils {
         byte[] buffer;
         isExit = false;
         while (!isExit){
-            buffer = new byte[1080];
-//            try {
-//                if (in != null) {
-//                    size = in.read(buffer);
-//
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            buffer = new byte[1024*4];
+            try {
+                if (in != null) {
+                    size = in.read(buffer);
+                    Message message = Message.obtain();
+                    message.obj = new String(buffer);
+                    handler.sendMessage(message);
+                    LogUtils.log(TAG,".........................接收到数据： "+message.obj.toString());
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Thread.sleep(10);
         }
     }
